@@ -1,114 +1,75 @@
-/* 
-// jQuery ajax 통신
-function cityInit() {
-	$.ajax({
-		type: "get",
-		url: "json/city.json",
-		dataType: "json",
-		success: function (res) {
-			console.log(res);
-		}
-	});
-}
-*/
-
 // 전역변수
-var ajax = new XMLHttpRequest();
-var dailyAjax = new XMLHttpRequest();
-var weeklyAjax = new XMLHttpRequest();
 var key = '02efdd64bdc14b279bc91d9247db4722';
+var units = 'metric';
 var dailyAPI = 'https://api.openweathermap.org/data/2.5/weather';
 var weeklyAPI = 'https://api.openweathermap.org/data/2.5/forecast';
-// main - 도시정보 가져오기
-cityInit();
-function cityInit() {
-	ajax.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var cities = JSON.parse(this.responseText).cities;
-			// id로 DOM 접근하기 - jQuery
-			var $citySelect = $("#cities");
-			// id로 DOM 접근하기 - ES5
-			var citySelect5 = document.getElementById("cities");
-			// id로 DOM 접근하기 - ES6
-			var citySelect = document.querySelector("#cities");
-			console.log($citySelect[0], $(citySelect5), citySelect);
+//https://api.openweathermap.org/data/2.5/weather(파일명)?(변수를 줌 - get방식)
+//https://api.openweathermap.org/data/2.5/weather?id=1835848&appid=02efdd64bdc14b279bc91d9247db4722&units=metric
+var cityURL ="json/city.json";
+var dailyURL = dailyAPI + '?appid=' + key + '&units=' + units ;
+var weeklyURL = weeklyAPI + '?appid=' + key + '&units=' + units ;
 
-			// jQuery: select#cities 에 도시를 option으로 추가하기
-			/*
-			for(var i in cities) {
-				$citySelect.append('<option value="'+cities[i].id+'">'+cities[i].name+'</option>');
-			}
-			*/
+//프로그램 시작
+init();
+function init(){
+var ajax = new XMLHttpRequest();
+ajax.onreadystatechange = cityFn;
+ajax.open('GET', cityURL , true);//동기&비동기 통신(일단 비동기로 진행) open과 send한 set
+ajax.send();
+}
 
-			// ES5: select#cities 에 도시를 option으로 추가하기
-			/*
-			for(var i in cities) {
-				var html = '<option value="'+cities[i].id+'">'+cities[i].name+'</option>';
-				document.getElementById("cities").innerHTML += html;
-				// console.log(document.getElementById("cities").innerHTML);
-			}
-			*/
-
-			// ES6: select#cities 에 도시를 option으로 추가하기
-			// var citySelect = document.querySelector("#cities");
-			var elem;
-			var cityName;
-			elem = document.createElement('option');
-			cityName = document.createTextNode("날씨를 검색할 도시 이름을 선택해 주세요.");
-			elem.appendChild(cityName);
-			elem.setAttribute("value", "");
-			elem.setAttribute("selected", "selected");
-			citySelect.appendChild(elem);
-			for(var i in cities) {
-				// tag를 만든다. 단 DOM에 적용되지 전단계
-				elem = document.createElement('option');
-				// tag 안에 삽입될 텍스트를 만든다.	
-				cityName = document.createTextNode(cities[i].name);
-				// 생성된 tag에 속성을 준다.
-				elem.setAttribute("value", cities[i].id);
-				// 생성된 tag에 생성된 텍스트를 붙인다.
-				elem.appendChild(cityName);
-				// 생성된 tag를 원하는 DOM의 Element에 붙인다.
-				citySelect.appendChild(elem);
-			}
-
-			// jQuery select change 이벤트
-			/*
-			$("#cities").change(function(){
-				console.log(	$(this).val()	);
-			});
-			*/
-
-			// ES5, ES6 change 이벤트
-			// citySelect.addEventListener(이벤트, 콜백함수)
-			citySelect.addEventListener("change", function(){
-				var cityId = this.value;
-				var dailyURL = dailyAPI + "?appid=" + key + "&id=" + cityId;
-				dailyAjax.onreadystatechange =  function(){
-					if (this.readyState == 4 && this.status == 200) {
-						var daily = JSON.parse(this.responseText);
-						console.log(daily);
-					}
-				};
-				dailyAjax.open("GET", dailyURL, true);
-				dailyAjax.send();
-			});
+//도시정보 가져오기
+function cityFn(){
+	if(this.readyState == 4 && this.status == 200){
+		var res =	JSON.parse(this.responseText).cities;
+		/* var ajax = new XMLHttpRequest(); //위랑 범위가 다름..다른 변수임. */
+		//객체지향으로 하게 되면 한 곳에서 간편하게 작업할 수 있다.;;;;맞나...??
+		var _city = document.querySelector("#cities"); //_로 시작한 변수는 DOM객체
+		var _elem = document.createElement('option');
+		var title = document.createTextNode('도시를 선택해 주세요!');
+		_elem.appendChild(title);
+		_elem.setAttribute('value',"");
+		_elem.setAttribute('selected',"selected");
+		document.querySelector("#cities").innerHTML = "";
+		document.querySelector("#cities").appendChild(_elem);
+		//<option value ="" selected>도시를 선택해 주세요!</option>
+		for(var i in res){
+			_elem = document.createElement('option');
+			title = document.createTextNode(res[i].name);//도시명
+			_elem.setAttribute ('value', res[i].id); //id
+			_elem.appendChild(title);
+			// document.querySelector("#cities").appendChild(elem);
+			_city.appendChild(_elem);
 		}
-	};
-	ajax.open("GET", "json/city.json", true);
-	ajax.send();
+		_city.addEventListener("change", function(){
+			var ajax = new XMLHttpRequest();
+			ajax.onreadystatechange = dailyFn;
+			ajax.open('GET', dailyURL+"&id="+this.value , true);
+			                              //_city 
+			ajax.send();
+		})
+	}
+}
+
+//데일리정보 가져오기
+function dailyFn(){
+if(this.readyState == 4 && this.status == 200){
+	console.log(JSON.parse (this.responseText));
+}
 }
 
 
-/*
-// innerHTML 사용법
-var a = 5;
-var html = a;
-html += a;
-console.log(html);
 
-// var html = document.getElementById("sample").innerHTML;
-// document.getElementById("sample").innerHTML = document.getElementById("sample").innerHTML + '<span>마바사아</span>';
-document.getElementById("sample").innerHTML += '<span>마바사아</span>';
-console.log(html);
-*/
+
+/* var ajax = new XMLHttpRequest();
+ajax.onreadystatechange = cityfn;
+ajax.open('GET', cityURL , true);
+if(this.readystatechange == 4 && this.status == 200) 
+↕
+	$.ajax({
+		type: "get",
+		url: cityURL,
+		dataType: "json",
+		success: cityFn 
+		//	success: function(res) 
+	})*/

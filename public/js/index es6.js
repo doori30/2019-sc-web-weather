@@ -12,10 +12,64 @@ var weeklyURL = weeklyAPI + '?appid=' + key + '&units=' + units ;
 //프로그램 시작
 init();
 function init(){
+	wrapChg("M");
 var ajax = new XMLHttpRequest();
 ajax.onreadystatechange = cityFn;
 ajax.open('GET', cityURL , true);//동기&비동기 통신(일단 비동기로 진행) open과 send한 set
 ajax.send();
+}
+
+
+//wrapChage - 화면 SHOW/HIDE
+/* function wrapChg(type){
+	switch(type){
+//변수를 던짐.
+//
+case "D":
+		document.querySelector(".wrap-daily").style.display =="block"
+		document.querySelector(".wrap-weekly").style.display =="none"
+		document.querySelector(".wrap-main").style.display =="none"
+	break;
+case "W":
+		document.querySelector(".wrap-daily").style.display =="none"
+		document.querySelector(".wrap-weekly").style.display =="block"
+		document.querySelector(".wrap-main").style.display =="none"
+	 break;
+	default:
+			document.querySelector(".wrap-daily").style.display =="none"
+			document.querySelector(".wrap-weekly").style.display =="none"
+			document.querySelector(".wrap-main").style.display =="block"
+		break;
+	}
+} */
+function wrapChg(type){
+	switch(type){
+case "D":
+		//document.querySelector(".wrap-daily").classList.replace("d-block","b-none");
+		document.querySelector(".wrap-daily").classList.add("d-block");
+		document.querySelector(".wrap-daily").classList.remove("d-none");
+		document.querySelector(".wrap-weekly").classList.add("d-none");	
+		document.querySelector(".wrap-weekly").classList.remove("d-block");		
+		document.querySelector(".wrap-main").classList.add("d-none");
+		document.querySelector(".wrap-main").classList.remove("d-block");	
+		break;
+case "W":
+		document.querySelector(".wrap-daily").classList.add("d-none");
+		document.querySelector(".wrap-daily").classList.remove("d-block");
+		document.querySelector(".wrap-weekly").classList.add("d-block");	
+		document.querySelector(".wrap-weekly").classList.remove("d-none");		
+		document.querySelector(".wrap-main").classList.add("d-none");
+		document.querySelector(".wrap-main").classList.remove("d-block");	 
+		break;
+	default:
+		document.querySelector(".wrap-daily").classList.add("d-none");
+		document.querySelector(".wrap-daily").classList.remove("d-block");
+		document.querySelector(".wrap-weekly").classList.add("d-none");	
+		document.querySelector(".wrap-weekly").classList.remove("d-block");		
+		document.querySelector(".wrap-main").classList.add("d-block");
+		document.querySelector(".wrap-main").classList.remove("d-none");
+		break;
+	}
 }
 
 //도시정보 가져오기
@@ -54,14 +108,39 @@ function cityFn(){
 //데일리정보 가져오기
 function dailyFn(){
 if(this.readyState == 4 && this.status == 200){
-	console.log(JSON.parse (this.responseText));
+	let res = JSON.parse (this.responseText);
+	//고정값
+	let iconSrc = `../img/icon/${res.weather[0].icon}.png`;
+	let temp = `현재온도 <b>${res.main.temp}</b> ℃`;
+	let desc = `현재날씨 ${res.weather[0].main}`;
+	//↓ DOM
+	let _wrap = document.querySelector(".wrap-daily");
+	let _title = document.createElement("div");
+	let _img = document.createElement("div");
+	let _temp = document.createElement("div");
+	let _desc = document.createElement("div");
+	_title.innerHTML ='오늘의 날씨';
+	_img.innerHTML =`<img src="${iconSrc}" class="w-50">`;
+	// 문자열 안에  넣을 시 ${}로 넣어서 변수를 넣을 수 있다. enter를 해도 상관없이 적용된다.
+	_temp.innerHTML = temp;
+	_desc.innerHTML = desc;
+	_title.setAttribute("class","text-center py-3 fa-3x");
+	_img.setAttribute("class","text-center py-3");
+	_temp.setAttribute("class","text-center py-3 fa-2x");
+	_desc.setAttribute("class","text-center py- fa-2x");
+	_wrap.innerHTML = '';
+	_wrap.appendChild(_title);
+	_wrap.appendChild(_img);
+	_wrap.appendChild(_temp);
+	_wrap.appendChild(_desc);
+	wrapChg("D");
 }
 }
 
 
 
 
-/* var ajax = new XMLHttpRequest();
+/* var ax = new XMLHttpRequest();
 ajax.onreadystatechange = cityfn;
 ajax.open('GET', cityURL , true);
 if(this.readystatechange == 4 && this.status == 200) 

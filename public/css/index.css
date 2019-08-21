@@ -6,3 +6,10 @@ body{
 	background: url(../img/bg/01d.jpg) no-repeat center;
 	background-size: cover;
 }
+
+.wrap-daily{
+	color: #f8f8f8;
+	padding: 2rem;
+	background-color: rgba(0,0,0,0.5);
+	border: solid #666;
+}

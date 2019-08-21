@@ -1,0 +1,124 @@
+<script>
+	//변수와 함수의 이야기.
+const log =console.log;
+const clear = console.clear;
+
+//함수 선언문  -선언을 먼저 하고 함수실행 가능함.
+test();
+function test(){
+log("test()");
+}
+
+//함수 표현식 -변수에 넣어서 실행가능함 선언을 먼저 할 수 없음.
+var test2 = function(){
+  console.log("test2()");
+}
+test2();
+
+//ES6 함수 선언 표현식
+const test3 = () => log("test3()");
+test3();
+
+//variable 변수 -변하는 수
+var a;
+a = 10;
+a=20;
+//↕
+var b = 10;
+
+//ES6 에서 let, const가 추가됨.
+//constant 상수 -변하지 않는 수 (한번 선언하면 변하지 않는다.)
+//선언과 동시에 값을 대입한다.
+//01.leam.es6.html:26 Uncaught SyntaxError: Missing initializer in const declaration
+//잘못된 예시: const c;
+//             c = 30;
+const c = 30;
+const pi = 3.141592;
+
+//변수의 스코프(범위)
+var d = 10;
+var d = 40;
+//자바스크립트만 한번된 변수를 또 선언할 수 있다.(이중선언)
+//대신 결과값을 마지막 변수가 나옴.
+console.log(d);
+
+//ES6는 ES5의 모든 것을 사용할 수 있다.
+//var = let과 동일하나 이중선언을 할 수 있다.
+//은연중에 이중선언이 가능 할 수 있기 때문에 보안으로 나온 변수.
+//let e = 20;
+let e = 50;
+
+log(e);
+clear();
+/* 
+var hongmin = "글로벌 홍민"; 
+console.log(hongmin); //전체 변수 글로벌 홍민
+function test4(){
+	var hongmin ="동네 홍민";  //지역 변수 동네 홍민
+	console.log(hongmin);
+}
+test4();                //전체영역 글로벌 홍민
+console.log(hongmin);  */
+
+let hongmin = "글로벌 홍민"; 
+log(hongmin); //전체 변수 글로벌 홍민
+function test4(){
+	let hongmin ="동네 홍민";  //지역 변수 동네 홍민
+log(hongmin);
+}
+test4();                //전체영역 글로벌 홍민
+log(hongmin); 
+
+for(var i=0; i<10; i++){
+//var는 전역변수나 지역변수 둘다 접근가능하다.
+//전역변수로도 찾을 수 있어서 for 문 밖에서도 찾을 수 있다.
+}
+log(i);
+
+for(let j=0; j<10; j++){
+//let은 for문 {}안을 벗어날 수 없다.
+log(j)
+}
+//log(j); 오류남.
+
+//변수의 Tyoe(6가지 -> ES6로 넘어오면서 7가지)
+//primitive type(원시적인,태초) 5가지 
+    //number, string, boolean, null(빈값), undefined(지정되지 않은 값)
+
+
+		//reference type(참조) 1가지 - function, array ..
+
+
+		//+object type(객체) 1가지 - object, map, set, weakset
+
+clear();
+var f =10;
+var g =f;
+log(f,g);  //결과 -> f:10 g:10
+f = 20;
+log(f,g);  //결과 -> f:20 g:10
+//원시타입 결과 그대로 값을 가짐.
+//중간에 값이 바뀌면 바뀐것만 바뀌고 나머지는 그대로의 값을 가짐.
+
+//참조는 주소의 값을 가짐.
+//값이 변하면 그 변하는 값의 주소를 가져감.(값이 변화를 모름..주소를 참조.)
+var h = [1,2,3];
+var k = h;
+log(h,k);  //결과 -> h[1,2,3] k[1,2,3] 
+h[1] = 200;
+log(h,k);  //결과 -> h[1,200,3] k[1,200,3] 
+
+const m = 10;
+//m = 20;  -> error 변화된 주소는 하드웨어에 접근이 불가함.
+const arr = [1, 2, 3, 4, 5];
+arr[2] = 300; 
+arr[4] = 400;
+//주소자체가 바뀐게 아니고 참조만 바뀐 것이기 때문에 오류가 나지 않음.
+//실제 값이 저장된 주소만 가지고 있기 때문에 오류가 없는것.
+log(arr);
+
+
+
+
+
+</script>

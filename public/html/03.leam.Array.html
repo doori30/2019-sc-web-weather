@@ -1,0 +1,290 @@
+<script>
+	var log = console.log;
+	var clear = console.clear;
+
+//ES6 - Array.isArray(배열변수) - 변수가 배열인지 아닌지를 판단
+var obj = {
+	a: 10,
+	b: 20,
+};
+var arr = [1,2,3];
+var arr1 = new Array(1,2,3);
+var arr2 = new Array();
+arr2[0] = 1;
+arr2[1] = 2;
+arr2[2] = 3;
+
+var arr3 =[] //new Array();
+arr3.push(1); //배열에 밀어넣음.
+arr3.push(2);
+arr3.push(3);
+
+console.log(arr, arr2, arr3);
+
+log (Array.isArray(arr));//Array가 배열이니..? 결과 ->true
+log (Array.isArray(obj));//obj가 배열이니..? 결과 ->false
+
+//여러배열을 합치기 - concat
+var arr = [1,2,3];
+var arr2 = [4,5];
+var arr3 = arr.concat(arr2); //arr + arr2 합침-> 새로운 배열이 생김.(arr arr2는 값이 변하지 않음.)
+log(arr3);
+//결과 -> [1, 2, 3, 4, 5]
+
+//push, pop, unshift, shift, splice
+var arr = [1,2,3,4,5]; 
+arr.push(6);          //배열안으로 넣음
+log(arr);  
+//결과 -> [1, 2, 3, 4, 5, 6]
+
+var num = arr.pop(); //배열밖으로 꺼냄(마지막) 순차적으로 꺼내면 배열이 비어지게 된다.
+log(num,arr);        //결과 -> (5) [1, 2, 3, 4, 5]
+var num = arr.pop(); 
+log(num,arr);        //결과 -> (4) [1, 2, 3, 4]
+var num = arr.pop(); 
+log(num,arr);        //결과 -> (3) [1, 2, 3]
+var num = arr.pop(); 
+log(num,arr);        //결과 -> (2) [1, 2]
+var num = arr.pop();
+log(num,arr);        //결과 -> [1]
+
+
+var arr = [1,2,3];
+var num = arr.shift(); //배열밖으로 꺼냄(첫번째) shift-옮김.
+log(num,arr);
+//결과 -> 1 (2) [2, 3]
+
+arr.unshift(1);
+log(arr);
+//결과 ->(3) [1, 2, 3]
+
+
+//arr.splice(자리 index, 삭제할 데이터 수, ...(추가할 데이터(무한가능)) ) 
+var arr = [1,2,3,4,5];
+var arr2 = arr.splice(1, 2 ,6,7,8); 
+// 1번째부터 2개를 삭제 2,3가 밖으로 빠짐(arr2에 들어감.)
+//빠진 자리에 6,7,8 숫자를 추가
+log(arr, arr2);
+// 결과 ->[1, 6, 7, 8, 4, 5] (2) [2, 3]
+
+var arr = [1,2,3,4,5];
+var arr2 = arr.splice(2,1);
+// 2번째 자리 3번자리 빼기만 함. 추가x
+//빠진 데이터는 배열로 떨어짐.arr2
+log(arr, arr2);
+//결과 ->[1, 2, 4, 5] [3]
+
+var arr = [1,2,3,4,5];
+var arr2 = arr.splice(2,0,8);
+//삭제할 데이터를 없을 경우 arr.splice(2,0,8)만 입력해도됨.
+log(arr, arr2);
+//결과 -> [1, 2, 8, 3, 4, 5] []
+
+var arr = [1,2,3,4,5];
+ arr.splice(2,0,8);
+ arr.splice(4,0,10);
+ log(arr);
+ //결과 -> [1, 2, 8, 3, 10, 4, 5] /[1, 10, 2, 3, 4, 5, 8]
+
+//sort() - 정렬
+arr.sort();
+log(arr);
+// 결과 -> [1, 10, 2, 3, 4, 5, 8]
+// 문자열로 정렬이 됨.
+
+/* arr.sort(function(a,b){
+	return a-b;
+});
+log(arr);
+//a-b 비교시 a가 크면 뒤로 순차적으로 감. 2-1 => 1,2 
+//마이너스가 되면 자리이동이 없다.
+// ↕ 결과 - >[1, 2, 3, 4, 5, 8, 10] */ //ES5결과
+
+arr.sort((a,b) => a-b);
+log(arr);
+// 오름차순 결과 - >[1, 2, 3, 4, 5, 8, 10]
+arr.sort((a,b) => b-a);
+log(arr);
+// 내림차순 결과 ->[10, 8, 5, 4, 3, 2, 1]
+
+clear();
+
+//toString() : 배열을 문자열로 만들어줌.
+var arr = [1, 2, 3, 4, 5];
+var arrStr = arr.toString();
+log(arrStr);
+//결과 -> 1,2,3,4,5 (문자)
+//데이타베이스에는 문자열로만 저장이 가능 (배열저장x)
+//배열을 저장하고 싶을 때에는 문자열로 바꿔서 작업함.
+
+//반복문
+for(var i=0; i<10; i++){}                  //ES5
+for(var i in arr){}                        //ES5
+for(var i of arr){}                        //ES6
+while(3 > 5){}                             //ES5
+arr.forEach(function(i, a, s){})           //ES5
+var arr2 = arr.map(function(){});          //ES6
+var arr2 = arr.filter(function(){});       //ES6
+
+var obj = {
+	a: 'A',
+	b: 'B',
+	c: 3
+}
+var arr = ['A', 'B', 'C'];
+
+var key =Object.keys(obj);
+log(key);
+//결과 ->["a", "b", "c"] 배열로 추출
+var value =Object.values(obj);
+log(value);
+//결과 -> ["A", "B", 3] 
+var key2 =Object.keys(arr);
+log(key2);
+//결과 ->["0", "1", "2"]
+var value2 =Object.keys(arr);
+log(value2);
+//결과 ->["0", "1", "2"]
+
+log(Object.entries(obj));
+//결과 ->[Array(2), Array(2), Array(2)]
+//배열 안에 배열로
+
+for(var i in obj){
+	//    key  value  ->key를 받아서 value를 입력
+log(obj[i]);
+};   
+//결과 ->
+//A
+//B
+//C
+
+//for(var i of arr){
+	//  value  value  ->value를 받아서 value를 입력함.
+	//결과 ->
+//A
+//B
+//C
+for(var v of Object.values(obj)){
+log(v);
+}; 
+//결과 ->
+//A
+//B
+//3
+for(var [k,v] of Object.entries(obj)){
+log(k, v);
+};
+//결과 -> 배열에 있는 a : 'A'를 둘다 보여준다.
+//a A
+//b B
+//c 3
+
+arr.test =function(){
+	//메소드
+	log("hi~");
+}
+
+arr.test();
+
+for(var i in arr){
+	log(i);// in 은 메소드도 한가지 요소로 알아서 같이돌려버림...
+}
+//결과 ->
+//0
+//1
+//2
+//test
+for(var v of arr){
+	log(v);// of 는 필요한 결과값의 요소만 찾아서 돌림..(아직 explorer에서 안먹힘.)
+}
+
+//while (조건이 참이면){}
+
+var arr = [1, 2, 3, 4, 5];
+while(arr.length > 2)//arr(5) 이 2보다 크면 무한반복
+{
+log(arr.pop());
+}
+//결과 -> 2가 될 때 까지 pop으로 빠지다가 2가 되면 멈춤.
+//5
+//4
+//3
+log(arr);
+//결과 ->(2) [1, 2] 남은값
+
+clear();
+
+var arr = [1, 2, 3, 4, 5];
+var arr100 =[];
+arr.forEach(function(v, k, s){
+	//배열을 돌리면서 각각의 변수에 함수를 더함.
+log(v,k,s);
+});
+//결과 ->
+// 1 0 (5) [1, 2, 3, 4, 5]
+// 2 1 (5) [1, 2, 3, 4, 5]
+// 3 2 (5) [1, 2, 3, 4, 5]
+// 4 3 (5) [1, 2, 3, 4, 5]
+// 5 4 (5) [1, 2, 3, 4, 5]
+arr.forEach(function(v, i, s){
+	arr100.push(v*100);
+});
+log(arr,arr100);
+//결과 ->배열arr에서 꺼내서 결과값을 arr100으로 옮김.>
+//(5) [1, 2, 3, 4, 5] (5) [100, 200, 300, 400, 500] 
+
+var arr = [1,2,3,4,5];
+var arr100 = arr.map(function(v){
+	return v * 100;
+});
+log(arr,arr100);
+//결과 ->map은 forEach,push를 합친거...????
+//(5) [1, 2, 3, 4, 5] (5) [100, 200, 300, 400, 500] 
+
+var arr = [1,2,3,4,5];
+var arr100 = arr.map(v => v * 100);
+log(arr,arr100);
+// ES6 결과 ->
+//(5) [1, 2, 3, 4, 5] (5) [100, 200, 300, 400, 500] 
+
+
+//y = x * x; 2차함수 =
+// function fn(x) {
+// 	return x * x;
+// }
+
+
+var students = [
+	{name: "홍길돌",kor:90, eng:80},
+	{name: "홍길길",kor:99, eng:99},
+	{name: "홍동동",kor:95, eng:80},
+	{name: "홍길동",kor:20, eng:30},
+	{name: "홍길홍",kor:50, eng:80},
+];
+
+var stdKor = [];
+students.forEach(function(v){
+	if(v.kor >=80) stdKor.push(v);
+	//학생들중에 국어점수가 70점이상인 사람만 골라라.
+});
+log(stdKor);
+
+var stdKor = students.filter(function(v){
+	return v.kor >= 80;
+});
+log(stdKor);
+
+var stdKor = students.filter(v => v.kor >= 80);
+log(stdKor);
+//3가지 전체 결과 ->
+//(3) [{…}, {…}, {…}]
+// 0: {name: "홍길돌", kor: 90, eng: 80}
+// 1: {name: "홍길길", kor: 99, eng: 99}
+// 2: {name: "홍동동", kor: 95, eng: 80}
+// length: 3
+// __proto__: Array(0)
+
+
+
+</script>

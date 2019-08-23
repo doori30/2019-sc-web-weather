@@ -43,11 +43,12 @@ body {
 	background-color: rgba(0, 0, 0, 0.7);
 	border: 1px solid #666;
 	overflow: auto;
-	align-items: flex-start;
-	align-content: flex-start;
 }
 .wrap-daily > .conts{
 	padding: 2rem;
+}
+.daily-img{
+	max-width: 180px;
 }
 .wrap-weekly > .conts{
 	display: flex;

@@ -1,8 +1,46 @@
 <script>
+const log = console.log;
+const clear = console.clear;
+
 //Date 객체
 
+var d = new Date();
+log(d);
+//자바스크립트의 시간은 쓰지 않음.
+//자바스크립트의 시간은 컴퓨터의 시간->클라이언트 시간을 가져옴.(서버시간)
+//인터넷은 로컬에서도 사용되어야 하는 시간이므로 시간과 날짜 수정이 가능함.
+//통신사의 시간을 정해진 시간으로 위성으로 받아 뿌리는 현재 사용하는 시간.
 
+//ISO - "2019-08-23 11:17:25"(문자열)
 
+var sTime = "2019-08-23 11:17:25";  //GMT
+var d = new Date(sTime);
+var dt = d.getTime();
+           //timestemp를 만들어줌.
+// 밀리세컨드 //결과 -> 1566526645000
+log(typeof d, d, dt);
+//log(d);결과 ->Fri Aug 23 2019 11:17:25 GMT+0900 (한국 표준시)
+//log(typeof sTime);문자열-string
+//log(typeof d);객체-object
 
+//GMT ->GMT+0900
+var sTime = "2019-08-23 11:17:25";  //GMT
+var gts = new Date(sTime).getTime();
+var kts = gts + (9 * 60 * 60 * 1000);  //(시간*분*초*);
+var kTime = new Date(kts); //데이터 객체
+log(sTime); //2019-08-23 11:17:25
+log(kTime); //Fri Aug 23 2019 20:17:25 GMT+0900 (한국 표준시)
+
+var monthArr = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월",];
+var year = kTime.getFullYear() + "년";             //2019
+var month = monthArr[kTime.getMonth()] + " ";     //7 (0~11 배열)
+var day = kTime.getDate() + "일 ";                // 23 (1~31)
+var hour = kTime.getHours() + "시 ";             //   (0~23배열)
+var min = kTime.getMinutes() + "분 ";                 //  (0~59배열)
+var sec = kTime.getSeconds() + "초 ";                 //  (0~59배열)
+var week = kTime.getDay();                   //  (0~6배열)(일~토)
+var disTime = year + month + day + hour + min + sec;
+log(disTime);
+//set은 바꿔주는거. get <-> set
 
 </script>

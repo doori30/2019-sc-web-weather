@@ -5,7 +5,7 @@ body {
 }
 
 body {
-	background: url(../img/bg/01d.jpg) no-repeat center;
+	background: url(../img/bg/elia-clerici-XIrIWKCQykg-unsplash.jpg) no-repeat center;
 	background-size: cover;
 }
 
@@ -26,22 +26,25 @@ body {
 .navi>li {
 	flex: 1 0 33.3333%;
 	cursor: pointer;
-	background-color: #333;
-	color: #aaa;
+	/* background-color: #333; */
+	color: rgb(0, 0, 0);
 }
 
 .navi>.navi-sel {
-	background-color: #111;
+	/* background-color: #111; */
+	font-weight: bold;
 	color: #f0e399;
-	border: 1px solid #666;
+	/* border: 1px solid #666; */
 	border-bottom: none;
 }
 
 .wrap > .conts {
 	height: calc(100% - 60px);
-	color: #fff;
-	background-color: rgba(0, 0, 0, 0.7);
-	border: 1px solid #666;
+	color: rgb(255, 255, 255);
+	font-weight: bold;
+	/* color: #fff; */
+	/* background-color: rgba(0, 0, 0, 0.7); */
+	/* border: 1px solid #666; */
 	overflow: auto;
 }
 .wrap-daily > .conts{
